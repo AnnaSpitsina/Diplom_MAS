@@ -16,7 +16,9 @@ int main(int argc, char *argv[])
     Qkx_coeffs* kProtocol = new Qkx_coeffs(ConfigFile, KI);
     //передача X
     x_protocol* xProtocol = new x_protocol(ConfigFile, XI, X);
-    HIGH_LEVEL high_level(2);
+    Trajectory xy;
+    xy.show();
+    HIGH_LEVEL high_level([&xy](){xy.draw_trajectory();}, 2);
     return a.exec();
     return b.exec();
 

@@ -18,7 +18,7 @@ class CS_ROV : public QObject
 {
     Q_OBJECT
 public:
-    CS_ROV(std::function<void(void)> drawCall, size_t idx, QObject * parent = nullptr);
+    CS_ROV(size_t idx, QObject * parent = nullptr);
     size_t idx;
     void regulators();
     void BFS_DRK(double Upsi, double Uteta, double Ugamma, double Ux, double Uy, double Uz);
@@ -26,7 +26,7 @@ public:
     ROV_Model model;
     bool closed_contour = true;
 
-    std::function<void(void)> DrawCall;
+
 
 //public slots:
 //    void tick();

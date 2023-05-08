@@ -31,7 +31,7 @@ struct InitData {
 class ROV_Model : public QObject {
     Q_OBJECT
 public:
-    explicit ROV_Model(double(* x)[2], QObject *parent = 0);
+    explicit ROV_Model(double(* x)[2], double a15 = 0, double a16 = 0, double a17 = 0, QObject *parent = 0);
     virtual ~ROV_Model();
 signals:
 

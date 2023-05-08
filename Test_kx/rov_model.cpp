@@ -5,8 +5,14 @@
 
 
 
-ROV_Model::ROV_Model(double (* x)[2], QObject *parent) : QObject(parent)
+ROV_Model::ROV_Model(double (* x)[2], double a15, double a16, double a17, QObject *parent) : QObject(parent)
 {
+    a[15] = a15;
+    a[16] = a16;
+    a[17] = a17; //установка начальных точек агентов
+    da[15] = 0;
+    da[16] = 0;
+    da[17] = 0; //дозануляем то, что пропускается в resetModel
     resetModel();
 
     X = x;
@@ -213,7 +219,14 @@ void ROV_Model::model(const float Upl,const float Upp,const float Usl,const floa
 }
 
 void ROV_Model::resetModel(){
-    for (int k=0;k<ANPA_MOD_CNT;k++) {a[k] = 0.0f; da[k]=0.0f;}   //f на конце означает число с плавающей точкой
+    for (int k=0;k<15;k++) {
+        a[k] = 0.0f; da[k]=0.0f;
+    }
+    // пропускаем а, описывающие начальные точки
+    for (int k=18;k<ANPA_MOD_CNT;k++) {
+        a[k] = 0.0f; da[k]=0.0f;
+    }   //f на конце означает число с плавающей точкой
+
     for (int k=0; k<7;k++){
         Wv[k]=0;
         Vt[k]=0;

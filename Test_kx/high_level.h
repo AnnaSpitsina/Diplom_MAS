@@ -11,20 +11,22 @@ class HIGH_LEVEL : public QObject
 {
     Q_OBJECT
 public:
-    HIGH_LEVEL(size_t rov_count, QObject * parent = nullptr);
+    HIGH_LEVEL(std::function<void(void)> drawCall, size_t rov_count, QObject * parent = nullptr);
     ~HIGH_LEVEL();
-    size_t i; //для нумерации аппаратов и соответственно Х-в
+    size_t i_max_ROV;
+    void raschet_goal_point(); //рассчитать целевую точку
     //поведения
     void move_to_point();  //выйти в точку
     void follow_the_leader(); //следовать за лидером
 
     bool movepointFlag = true;  // флаг выполнения определенного поведения
-    Trajectory xy;
+
     QVector<CS_ROV*> cs_rov_arr;
     double x_goal;
     double y_goal;
     QTimer timer;
 
+    std::function<void(void)> DrawCall;
 };
 
 #endif // HIGH_LEVEL_H

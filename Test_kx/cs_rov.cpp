@@ -1,25 +1,10 @@
 #include "cs_rov.h"
 #include "trajectory.h"
 
-CS_ROV::CS_ROV(std::function<void(void)> drawCall,  size_t idx, QObject *parent): QObject(parent), idx(idx),  model(&X[idx*100]), DrawCall(drawCall)
+CS_ROV::CS_ROV(size_t idx, QObject *parent): QObject(parent), idx(idx),  model(&X[idx*100], K[100 * idx + 5], K[100 * idx + 6], K[100 * idx + 7])
 {
-//    connect(&timer, &QTimer::timeout, this, &CS_ROV::tick);
-//    timer.start(10);
-}
 
-/*void CS_ROV::tick()
-{
-    readDataFromPult();
-    regulators();
-    BFS_DRK(X[100*i+45][0], 0, 0, X[100*i+46][0], 0, 0);
-    writeDataToModel();
 }
-
-void CS_ROV::readDataFromPult()
-{
-    X[100*i+31][0] = K[100*i+1]; //курс (в градусах)
-    X[100*i+32][0] = K[100*i+2]; //скорость по маршу
-}       */
 
 void CS_ROV::regulators()
 {
@@ -30,15 +15,7 @@ void CS_ROV::regulators()
         X[100*idx+44][0] = K[100*idx+12]*X[100*idx+12][0];
         X[100*idx+45][0] = X[100*idx+42][0]+X[100*idx+43][0]-X[100*idx+44][0]; //Upsi
 
-/*      X[100*i+42][0] = K[100*i+11]*X[100*i+31][0];
-        X[100*i+44][0] = K[100*i+12]*X[100*i+12][0];
-        X[100*i+45][0] = X[100*i+42][0]-X[100*i+44][0];
-        qDebug()<< X[100*i+44][0];   */    //для настройки контуров
-
-//      X[100*i+46][0] = K[100*i+14]*X[100*i+13][0]; //Ux
-//?      X[100*i+46][0] = K[100*i+14]*(X[100*i+32][0]-X[100*i+13][0])*X[32][0]; надо подгонять, но работает, но точность так себе
-
-        X[100*idx+46][0] = K[100*idx+14]*X[100*idx+32][0]; //Ux   как раньше работало
+        X[100*idx+46][0] = K[100*idx+14]*X[100*idx+32][0]; //Ux
         } else {
             X[100*idx+45][0] = 0;
             X[100*idx+46][0] = 0;
@@ -57,6 +34,6 @@ void CS_ROV::BFS_DRK(double Upsi, double Uteta, double Ugamma, double Ux, double
 
 void CS_ROV::writeDataToModel()
 {
-    DrawCall();
+
     model.tick(X[100*idx+50][0], X[100*idx+60][0], X[100*idx+70][0], X[100*idx+80][0], X[100*idx+90][0], X[100*idx+100][0], 0.01);
 }
