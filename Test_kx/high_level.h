@@ -16,7 +16,7 @@ public:
     size_t i_max_ROV;
     void raschet_goal_point(); //рассчитать целевую точку
     //поведения
-    void move_to_point();  //выйти в точку
+    void all_ANPA_move_to_point();  //выйти в точку
     void follow_the_leader(); //следовать за лидером
 
     bool movepointFlag = true;  // флаг выполнения определенного поведения

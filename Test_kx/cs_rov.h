@@ -23,12 +23,12 @@ public:
     void regulators();
     void BFS_DRK(double Upsi, double Uteta, double Ugamma, double Ux, double Uy, double Uz);
     void writeDataToModel();
+    void move_to_point(double x_goal, double y_goal);
     ROV_Model model;
     bool closed_contour = true;
+    bool point_reach = false;
+//    QTimer timer;
 
 
-
-//public slots:
-//    void tick();
 };
 #endif // CS_ROV_H_

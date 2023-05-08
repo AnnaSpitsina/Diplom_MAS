@@ -37,3 +37,66 @@ void CS_ROV::writeDataToModel()
 
     model.tick(X[100*idx+50][0], X[100*idx+60][0], X[100*idx+70][0], X[100*idx+80][0], X[100*idx+90][0], X[100*idx+100][0], 0.01);
 }
+
+void CS_ROV::move_to_point(double x_goal, double y_goal) {
+
+    double x_v_SK_sv_x_y_goal;
+    double y_v_SK_sv_x_y_goal;
+
+        x_v_SK_sv_x_y_goal = X[100*idx+22][0] - x_goal; //координаты аппаратов, в случае СК с началом координат в точке-цели
+        y_v_SK_sv_x_y_goal = X[100*idx+23][0] - y_goal;
+
+//        if ((x_v_SK_sv_x_y_goal[idx] == 0) and (y_v_SK_sv_x_y_goal[idx]<y_goal)) {
+//            X[100*idx+31][0] = 90;
+//            if (X[100*idx+21][0] < 0.99*X[100*idx+31][0]) {  //сначала  ПА поворачивается, как только повернется - задаем скорость
+//                X[100*idx+32][0] = 0;
+//            } else {
+//                X[100*idx+32][0] = K[100*idx+3];}
+//        }
+//        if ((x_v_SK_sv_x_y_goal[idx] == 0) and (y_v_SK_sv_x_y_goal[idx]>y_goal)) {
+//            X[100*idx+31][0] = -90;
+//            if (X[100*idx+21][0] > 0.99*X[100*idx+31][0]) {
+//                X[100*idx+32][0] = 0;
+//            } else {
+//                X[100*idx+32][0] = K[100*idx+3];}
+//        }
+//        if ((y_v_SK_sv_x_y_goal[idx] == 0) and (x_v_SK_sv_x_y_goal[idx] < 0)) {
+//            X[100*idx+31][0] = 0; X[100*idx+32][0] = K[100*idx+3];
+//        }
+//        if ((y_v_SK_sv_x_y_goal[idx] == 0) and (x_v_SK_sv_x_y_goal[idx] > 0)) {
+//            X[100*idx+31][0] = 0; X[100*idx+32][0] = -K[100*idx+3];
+//        }
+
+        if (qSqrt(qPow((X[100*idx+22][0] - x_goal), 2)+qPow((X[100*idx+23][0] - y_goal), 2)) < 1.5) {  // проверка расстояния до целевой точки, если < 2м, то размыкаю контура
+            closed_contour = false;
+            point_reach = true;
+
+        } else {
+            if (x_v_SK_sv_x_y_goal<0) {  //левая полуплоскость относительно целевой точки
+                if (y_v_SK_sv_x_y_goal<0) {   // 3 четверть
+                    X[100*idx+31][0] = qAtan(y_v_SK_sv_x_y_goal/x_v_SK_sv_x_y_goal)*(180/M_PI); // расчет угла курса и его перевод в градусы
+                    X[100*idx+32][0] = K[100*idx+3];
+                }
+                if ((y_v_SK_sv_x_y_goal > 0)) {
+                X[100*idx+31][0] = qAtan(y_v_SK_sv_x_y_goal/x_v_SK_sv_x_y_goal)*(180/M_PI); // 2 четверть
+                X[100*idx+32][0] = K[100*idx+3];
+                }
+            }
+            if (x_v_SK_sv_x_y_goal>0) {
+                if (y_v_SK_sv_x_y_goal >0) { // правая полуплоскость относительно целевой точки
+                    X[100*idx+31][0] = -180 + qAtan(y_v_SK_sv_x_y_goal/x_v_SK_sv_x_y_goal)*(180/M_PI); // 1 четверть
+                    X[100*idx+32][0] = K[100*idx+3];
+                }
+                if (y_v_SK_sv_x_y_goal <0) {
+                    X[100*idx+31][0] = 180 + qAtan(y_v_SK_sv_x_y_goal/x_v_SK_sv_x_y_goal)*(180/M_PI); // 4 четверть
+                    X[100*idx+32][0] = K[100*idx+3];
+                }
+            }
+
+        }
+        regulators();
+        BFS_DRK(X[100*idx+45][0], 0, 0, X[100*idx+46][0], 0, 0);
+        writeDataToModel();
+    }
+
+
