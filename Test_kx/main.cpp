@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     x_protocol* xProtocol = new x_protocol(ConfigFile, XI, X);
     Trajectory xy;
     xy.show();
-    HIGH_LEVEL high_level([&xy](){xy.draw_trajectory();}, 2);
+    HIGH_LEVEL high_level([&xy](){xy.draw_trajectory();}, 5);
     return a.exec();
     return b.exec();
 

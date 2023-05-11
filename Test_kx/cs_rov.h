@@ -27,7 +27,7 @@ public:
     ROV_Model model;
     bool closed_contour = true;
     bool point_reach = false;
-//    QTimer timer;
+    QTimer timer;
 
 
 };

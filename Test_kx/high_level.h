@@ -13,18 +13,29 @@ class HIGH_LEVEL : public QObject
 public:
     HIGH_LEVEL(std::function<void(void)> drawCall, size_t rov_count, QObject * parent = nullptr);
     ~HIGH_LEVEL();
-    size_t i_max_ROV;
-    void raschet_goal_point(); //рассчитать целевую точку
+
+    // Структура для представления точки
+    struct Point
+    {
+        double x, y;
+    };
+
+    //вспомогательные функции
+    Point raschet_goal_point(const QVector<Point>& points); //рассчитать целевую точку
+    double distance(const Point& p1, const Point& p2); //найти расстояние между точками
+
     //поведения
     void all_ANPA_move_to_point();  //выйти в точку
     void follow_the_leader(); //следовать за лидером
 
-    bool movepointFlag = true;  // флаг выполнения определенного поведения
-
+    size_t i_max_ROV;
+    bool movepointFlag = true;  // флаг выполнения поведения выхода в точку
     QVector<CS_ROV*> cs_rov_arr;
+    QTimer timer;
+
     double x_goal;
     double y_goal;
-    QTimer timer;
+
 
     std::function<void(void)> DrawCall;
 };
