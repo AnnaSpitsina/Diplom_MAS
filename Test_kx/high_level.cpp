@@ -11,20 +11,18 @@ HIGH_LEVEL::HIGH_LEVEL(std::function<void(void)> drawCall, size_t rov_count, QOb
 
     connect(&timer, &QTimer::timeout, this, &HIGH_LEVEL::all_ANPA_move_to_point);
 
-    QVector<Point> points = {
-        { K[5], K[6] },
-        { K[105], K[106] },
-        { K[205], K[206] },
-        { K[305], K[306] },
-        { K[405], K[406] },
-    };
-
-    Point gm = raschet_goal_point(points);
-    x_goal = X[1][0] = gm.x;
-    y_goal = X[2][0] = gm.y;
-
-
     if (movepointFlag) {
+        QVector<Point> points = {
+            { K[5], K[6] },
+            { K[105], K[106] },
+            { K[205], K[206] },
+            { K[305], K[306] },
+            { K[405], K[406] },
+        };
+
+        Point gm = raschet_goal_point(points);
+        x_goal = X[1][0] = gm.x;
+        y_goal = X[2][0] = gm.y;
         all_ANPA_move_to_point();
     }
 }

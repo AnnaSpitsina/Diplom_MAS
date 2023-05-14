@@ -25,8 +25,8 @@ Trajectory::Trajectory(QWidget *parent) :
 void Trajectory::draw_trajectory() {
     ui->widget->addGraph();
     ui->widget-> graph (0) -> setPen (QPen (Qt :: gray)); // Цвет кисти для рисования кривой 0
-    for (float i = 0; i<2*M_PI; i+=0.05) {
-    ui->widget->graph(0)->addData((X[1][0]+0.5*cos(i)),(X[2][0]+0.5*sin(i)));   //область нахождения заданной точки
+    for (float i = 0; i<2*M_PI; i+=0.01) {
+    ui->widget->graph(0)->addData((X[1][0]+cos(i)),(X[2][0]+sin(i)));   //область нахождения заданной точки
     }
 
     ui->widget->addGraph();
