@@ -67,7 +67,7 @@ void CS_ROV::move_to_point(double x_goal, double y_goal) {
 //            X[100*idx+31][0] = 0; X[100*idx+32][0] = -K[100*idx+3];
 //        }
 
-       if (qSqrt(qPow((X[100*idx+22][0] - x_goal), 2)+qPow((X[100*idx+23][0] - y_goal), 2)) < 1.5) {  // проверка расстояния до целевой точки, если < 2м, то размыкаю контура
+       if (qSqrt(qPow((X[100*idx+22][0] - x_goal), 2)+qPow((X[100*idx+23][0] - y_goal), 2)) < 2) {  // проверка расстояния до целевой точки, если < 2м, то размыкаю контура
             closed_contour = false;
             point_reach = true;
 
@@ -75,13 +75,13 @@ void CS_ROV::move_to_point(double x_goal, double y_goal) {
            if (x_v_SK_sv_x_y_goal < 0) {  //левая полуплоскость относительно целевой точки
                 if (y_v_SK_sv_x_y_goal <= 0) {   // 3 четверть
                     X[100*idx+31][0] = qAtan(y_v_SK_sv_x_y_goal/x_v_SK_sv_x_y_goal)*(180/M_PI); // расчет угла курса и его перевод в градусы
-                    if (X[100*idx+21][0] < 0.99*X[100*idx+31][0]) {
+                    if (X[100*idx+21][0] < 0.95*X[100*idx+31][0]) {
                        X[100*idx+32][0] = 0;
                     } else {X[100*idx+32][0] = K[100*idx+3];}
                     }
                 if ((y_v_SK_sv_x_y_goal > 0)) {
                     X[100*idx+31][0] = qAtan(y_v_SK_sv_x_y_goal/x_v_SK_sv_x_y_goal)*(180/M_PI); // 2 четверть
-                    if (X[100*idx+21][0] > 0.99*X[100*idx+31][0]) {
+                    if (X[100*idx+21][0] > 0.95*X[100*idx+31][0]) {
                        X[100*idx+32][0] = 0;
                     } else {X[100*idx+32][0] = K[100*idx+3];}
                     }

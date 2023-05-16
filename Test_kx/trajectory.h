@@ -18,7 +18,7 @@ class Trajectory : public QMainWindow
 public:
     explicit Trajectory(QWidget *parent = nullptr);
     ~Trajectory();
-    void draw_trajectory();
+    void draw_trajectory(int flag);
 
 private:
     Ui::Trajectory *ui;
