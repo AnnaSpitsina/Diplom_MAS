@@ -98,7 +98,7 @@ void HIGH_LEVEL::all_ANPA_move_to_point() {
     }
     DrawCall(1);
 
-    timer_1.start(15);
+    timer_1.start(10);
 }
 
 void HIGH_LEVEL::all_ANPA_distribute_point(){
@@ -131,7 +131,7 @@ void HIGH_LEVEL::all_ANPA_distribute_point(){
         arr_free_ANPA[minIdx] = false;
         ANPA_and_point.push_back({(double)minIdx, K[80+i], K[90+i]});
     }
-        timer_2.start(15);
+        timer_2.start(10);
 
 //    all_ANPA_move_to_different_point();
 //    for (int n=0; n<ANPA_and_point.size(); n++) {
@@ -153,7 +153,7 @@ void HIGH_LEVEL::all_ANPA_distribute_point(){
 void HIGH_LEVEL::all_ANPA_move_to_different_point() {
 
     bool all_done = true;
-    for (size_t i = 0; i<i_max_ROV; i++) { //ANPA_and_point.size() - количество строк вектора векторов, т е кол-во ПА
+    for (int i = 0; i<ANPA_and_point.size(); i++) { //ANPA_and_point.size() - количество строк вектора векторов, т е кол-во ПА
    //     qDebug()<< ANPA_and_point[i][0] << ANPA_and_point[i][1] << ANPA_and_point[i][2];
         cs_rov_arr[ANPA_and_point[i][0]]->move_to_point(ANPA_and_point[i][1], ANPA_and_point[i][2]);
         all_done &= cs_rov_arr[ANPA_and_point[i][0]]->point_reach;
